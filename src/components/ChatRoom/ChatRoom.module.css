@@ -1,0 +1,34 @@
+.chatroom-container {
+  width: 100%;
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chatroom-msg-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  gap: 8px;
+  overflow: auto;
+}
+
+.msg-input-btn-container {
+  width: 90%;
+  height: 5vh;
+  display: flex;
+  padding: 10px;
+}
+
+.msg-input {
+  width: 70%;
+  height: 100%;
+}
+
+.msg-btn {
+  width: 20%;
+  height: 100%;
+}
