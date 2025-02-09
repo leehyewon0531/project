@@ -1,0 +1,28 @@
+.msg-box {
+  max-width: 300px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+}
+
+.msg-box-mine {
+  align-self: flex-end;
+}
+
+.msg-box-character {
+  align-self: flex-start;
+}
+
+.msg {
+  padding: 8px;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
+.msg-mine {
+  background-color: rgb(215, 215, 215);
+}
+
+.msg-character {
+  background-color: rgb(154, 204, 154);
+}
