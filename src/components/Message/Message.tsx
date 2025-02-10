@@ -1,9 +1,10 @@
+import { Timestamp } from "firebase/firestore";
 import { formatTimestampToTime } from "../../utils/common/formatTimestampToTime";
 import styles from "./Message.module.css";
 
 interface MessageProps {
   sender: string;
-  timestamp: string;
+  timestamp: Timestamp;
   content: string;
 }
 
