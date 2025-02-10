@@ -1,4 +1,4 @@
-import { formatTimestampToTime } from "../../utils/formatTimestampToTime";
+import { formatTimestampToTime } from "../../utils/common/formatTimestampToTime";
 import styles from "./Message.module.css";
 
 interface MessageProps {
