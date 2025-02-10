@@ -1,28 +1,35 @@
 import styles from "./ChatRoom.module.css";
 import Message from "../Message/Message";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getCurrentMessages } from "../../utils/firebase/chatRooms/getCurrentMessages";
+import { MessageDocument } from "../../types/firestore.type";
+import { sortMessagesByTimestamp } from "../../utils/common/sortMessages";
 
-export default function ChatRoom() {
+export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const [userInput, setUserInput] = useState("");
+  const [messages, setMessages] = useState<Array<MessageDocument>>([]);
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const fetchedMessages = await getCurrentMessages(chatRoomId);
+      const sortedMessages = sortMessagesByTimestamp(fetchedMessages);
+      setMessages(sortedMessages);
+    };
+
+    fetchMessages();
+  }, [chatRoomId]);
 
   return (
     <div className={styles["chatroom-container"]}>
       <div className={styles["chatroom-msg-container"]}>
-        <Message
-          sender="user_1"
-          content="테스트 문자열입니다. 테스트 문자열입니다. 개행이 어떻게 이루어지는지 확인용"
-          timestamp="2024-02-09T12:34:56.789Z"
-        />
-        <Message
-          sender="char_1"
-          content="test2"
-          timestamp="2024-02-09T12:35:56.789Z"
-        />
-        <Message
-          sender="user_1"
-          content="테스트 문자열입니다. 테스트 문자열입니다. 개행이 어떻게 이루어지는지 확인용"
-          timestamp="2024-02-09T12:34:56.789Z"
-        />
+        {messages.map((el, idx) => (
+          <Message
+            key={idx}
+            sender={el.sender}
+            content={el.content}
+            timestamp={el.createdAt}
+          />
+        ))}
       </div>
       <div className={styles["msg-input-btn-container"]}>
         <input

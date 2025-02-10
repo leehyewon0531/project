@@ -3,7 +3,7 @@ import ChatRoom from "./components/ChatRoom/ChatRoom";
 function App() {
   return (
     <div>
-      <ChatRoom />
+      <ChatRoom chatRoomId={String(import.meta.env.VITE_TEST_CHATROOM_ID)} />
     </div>
   );
 }
