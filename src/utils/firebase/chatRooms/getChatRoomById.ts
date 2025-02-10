@@ -10,11 +10,9 @@ export async function getChatRoomById(
     const chatRoomRef = doc(db, COLLECTION_NAMES.CHATROOMS, chatRoomId);
     const chatRoomSnapshot = await getDoc(chatRoomRef);
 
-    if (chatRoomSnapshot.exists()) {
+    if (chatRoomSnapshot.exists())
       return chatRoomSnapshot.data() as ChatRoomDocument;
-    }
-
-    return null;
+    else return null;
   } catch (error) {
     console.error(error);
     return null;
