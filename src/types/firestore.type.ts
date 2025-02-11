@@ -16,7 +16,7 @@ export interface ChatRoomDocument {
 }
 
 export interface MessageDocument {
-  sender: string;
+  sender: DocumentReference;
   chatRoomId: string;
   createdAt: Timestamp;
   content: string;
