@@ -5,7 +5,7 @@ import { getCurrentMessages } from "../../utils/firebase/chatRooms/getCurrentMes
 import { MessageDocument } from "../../types/firestore.type";
 import { sortMessagesByTimestamp } from "../../utils/common/sortMessages";
 import { sendMessage } from "../../utils/firebase/messages/sendMessage";
-import { doc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase";
 import { updateRecentMessages } from "../../utils/firebase/chatRooms/updateRecentMessages";
 
@@ -14,13 +14,15 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const [messages, setMessages] = useState<Array<MessageDocument>>([]);
 
   useEffect(() => {
-    const fetchMessages = async () => {
+    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+
+    const unsub = onSnapshot(chatRoomRef, async () => {
       const fetchedMessages = await getCurrentMessages(chatRoomId);
       const sortedMessages = sortMessagesByTimestamp(fetchedMessages);
       setMessages(sortedMessages);
-    };
+    });
 
-    fetchMessages();
+    return unsub;
   }, [chatRoomId]);
 
   const handleClickSendBtn = async () => {
