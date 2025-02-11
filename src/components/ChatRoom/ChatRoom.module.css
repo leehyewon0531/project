@@ -14,6 +14,7 @@
   padding: 5px;
   gap: 8px;
   overflow: auto;
+  scroll-behavior: smooth;
 }
 
 .msg-input-btn-container {

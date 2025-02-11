@@ -25,6 +25,11 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
     return unsub;
   }, [chatRoomId]);
 
+  useEffect(() => {
+    const msgContainer = document.getElementById("chatroom-msg-container");
+    if (msgContainer) msgContainer.scrollTop = msgContainer?.scrollHeight;
+  }, [messages]);
+
   const handleClickSendBtn = async () => {
     // 1. 메시지 전송 -> messages Collection
     const messageRef = await sendMessage(
@@ -44,7 +49,10 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
 
   return (
     <div className={styles["chatroom-container"]}>
-      <div className={styles["chatroom-msg-container"]}>
+      <div
+        id="chatroom-msg-container"
+        className={styles["chatroom-msg-container"]}
+      >
         {messages.map((el, idx) => (
           <Message
             key={idx}
