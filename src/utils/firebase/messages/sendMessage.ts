@@ -11,7 +11,7 @@ export async function sendMessage(
   sender: DocumentReference,
   content: string,
   chatRoomId: string
-): Promise<string | null> {
+): Promise<DocumentReference | null> {
   try {
     const messageRef = await addDoc(collection(db, COLLECTION_NAMES.MESSAGES), {
       sender,
@@ -19,7 +19,7 @@ export async function sendMessage(
       chatRoomId,
       createdAt: serverTimestamp(),
     });
-    return messageRef.id;
+    return messageRef;
   } catch (error) {
     console.error(error);
     return null;

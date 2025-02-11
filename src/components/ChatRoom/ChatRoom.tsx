@@ -7,6 +7,7 @@ import { sortMessagesByTimestamp } from "../../utils/common/sortMessages";
 import { sendMessage } from "../../utils/firebase/messages/sendMessage";
 import { doc } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase";
+import { updateRecentMessages } from "../../utils/firebase/chatRooms/updateRecentMessages";
 
 export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const [userInput, setUserInput] = useState("");
@@ -23,12 +24,16 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   }, [chatRoomId]);
 
   const handleClickSendBtn = async () => {
-    const msgResult = await sendMessage(
+    const messageRef = await sendMessage(
       doc(db, "users", import.meta.env.VITE_TEST_USER_ID),
       userInput,
       import.meta.env.VITE_TEST_CHATROOM_ID
     );
-    if (msgResult) setUserInput("");
+
+    if (!messageRef) return;
+
+    updateRecentMessages(import.meta.env.VITE_TEST_CHATROOM_ID, messageRef);
+    setUserInput("");
   };
 
   return (
