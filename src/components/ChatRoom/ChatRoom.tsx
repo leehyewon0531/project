@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { getCurrentMessages } from "../../utils/firebase/chatRooms/getCurrentMessages";
 import { MessageDocument } from "../../types/firestore.type";
 import { sortMessagesByTimestamp } from "../../utils/common/sortMessages";
+import { sendMessage } from "../../utils/firebase/messages/sendMessage";
+import { doc } from "firebase/firestore";
+import { db } from "../../utils/firebase/firebase";
 
 export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const [userInput, setUserInput] = useState("");
@@ -18,6 +21,15 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
 
     fetchMessages();
   }, [chatRoomId]);
+
+  const handleClickSendBtn = async () => {
+    const msgResult = await sendMessage(
+      doc(db, "users", import.meta.env.VITE_TEST_USER_ID),
+      userInput,
+      import.meta.env.VITE_TEST_CHATROOM_ID
+    );
+    if (msgResult) setUserInput("");
+  };
 
   return (
     <div className={styles["chatroom-container"]}>
@@ -39,9 +51,11 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
           onChange={(e) => {
             setUserInput(e.currentTarget.value);
           }}
-          defaultValue={userInput}
+          value={userInput || ""}
         />
-        <button className={styles["msg-btn"]}>전송</button>
+        <button className={styles["msg-btn"]} onClick={handleClickSendBtn}>
+          전송
+        </button>
       </div>
     </div>
   );
