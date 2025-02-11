@@ -24,6 +24,7 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   }, [chatRoomId]);
 
   const handleClickSendBtn = async () => {
+    // 1. 메시지 전송 -> messages Collection
     const messageRef = await sendMessage(
       doc(db, "users", import.meta.env.VITE_TEST_USER_ID),
       userInput,
@@ -32,7 +33,10 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
 
     if (!messageRef) return;
 
+    // 2. 현재 채팅방 recentMessages 업데이트 -> chatRooms Collection
     updateRecentMessages(import.meta.env.VITE_TEST_CHATROOM_ID, messageRef);
+
+    // 3. 사용자 입력 초기화
     setUserInput("");
   };
 
