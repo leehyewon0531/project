@@ -8,13 +8,14 @@ import { sendMessage } from "../../utils/firebase/messages/sendMessage";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../utils/firebase/firebase";
 import { updateRecentMessages } from "../../utils/firebase/chatRooms/updateRecentMessages";
+import { COLLECTION_NAMES } from "../../constants/firestore.constant";
 
 export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const [userInput, setUserInput] = useState("");
   const [messages, setMessages] = useState<Array<MessageDocument>>([]);
 
   useEffect(() => {
-    const chatRoomRef = doc(db, "chatRooms", chatRoomId);
+    const chatRoomRef = doc(db, COLLECTION_NAMES.CHATROOMS, chatRoomId);
 
     const unsub = onSnapshot(chatRoomRef, async () => {
       const fetchedMessages = await getCurrentMessages(chatRoomId);
@@ -33,7 +34,7 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
   const handleClickSendBtn = async () => {
     // 1. 메시지 전송 -> messages Collection
     const messageRef = await sendMessage(
-      doc(db, "users", import.meta.env.VITE_TEST_USER_ID),
+      doc(db, COLLECTION_NAMES.USERS, import.meta.env.VITE_TEST_USER_ID),
       userInput,
       import.meta.env.VITE_TEST_CHATROOM_ID
     );
