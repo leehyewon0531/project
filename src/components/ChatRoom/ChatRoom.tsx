@@ -27,7 +27,7 @@ export default function ChatRoom({ chatRoomId }: { chatRoomId: string }) {
 
   useEffect(() => {
     const msgContainer = document.getElementById("chatroom-msg-container");
-    if (msgContainer) msgContainer.scrollTop = msgContainer?.scrollHeight;
+    if (msgContainer) msgContainer.scrollTop = msgContainer.scrollHeight;
   }, [messages]);
 
   const handleClickSendBtn = async () => {
