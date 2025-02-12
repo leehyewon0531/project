@@ -1,6 +1,7 @@
 import { DocumentReference, Timestamp } from "firebase/firestore";
 import { formatTimestampToTime } from "../../utils/common/formatTimestampToTime";
 import styles from "./Message.module.css";
+import { COLLECTION_NAMES } from "../../constants/firestore.constant";
 
 interface MessageProps {
   sender: DocumentReference;
@@ -10,7 +11,7 @@ interface MessageProps {
 
 export default function Message(props: MessageProps) {
   const { sender, timestamp, content } = props;
-  const isUser = sender.parent.path === "users";
+  const isUser = sender.parent.path === COLLECTION_NAMES.USERS;
 
   return (
     <div
